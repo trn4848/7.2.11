@@ -36,7 +36,7 @@ public class PostTask {
                 if (mail.getFrom() == "Austin Powers" || mail.getTo() == "Austin Powers") {
                     log.WARN("Detected target mail correspondence: from " + mail.getFrom() + " to " + mail.getTo() + " " + mail.getMMessage());
                 } else {
-                    log.info("Usual correspondence: from " + mail.getFrom() + " to " + mail.getTo());
+                    log.INFO("Usual correspondence: from " + mail.getFrom() + " to " + mail.getTo());
                 }
             }
             return mail;
@@ -44,22 +44,54 @@ public class PostTask {
     }
 
 
-    public static class Thief  implements MailService {
+    public static class Thief implements MailService {
         private int minCostOfPackage;
-        static int stolenValue;
+        private int stolenValue = 0;
 
-        public Thief(int minCostOfPackage){
+        public Thief(int minCostOfPackage) {
             this.minCostOfPackage = minCostOfPackage;
 
         }
 
-        public int getStolenValue(){
+        public int getStolenValue() {
             return stolenValue;
         }
 
         @Override
         public Sendable processMail(Sendable mail) {
+            if (mail instanceof MailPackage && mail.getPrice() >= minCostOfPackage) {
+                stolenValue += mail.getPrice();
+                Package PackageCopy = new Package("stones instead of " + mail.getContent, 0);
+            }
+            return PackageCopy;
+        }
+    }
 
+
+    public static class IllegalPackageException extends RuntimeException {
+        public IllegalPackageException(String message) {
+            super(message);
+        }
+    }
+
+
+    public static class StolenPackageException extends RuntimeException {
+        public StolenPackageException(String message) {
+            super(message);
+        }
+    }
+
+
+    public static class Inspector implements MailService {
+        @Override
+        public Sendable processMail(Sendable mail) {
+            if (mail instanceof MailPackage){
+                if(mail.getContent().contains("stones")) {
+                    throw new StolenPackageException("Камни в посылке!");
+                }
+                if(mail.getContent().contains(WEAPONS) || mail.getContent().contains(BANNED_SUBSTANCE)) {
+                    throw new IllegalPackageException;
+                }
             return mail;
         }
     }
