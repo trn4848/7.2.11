@@ -22,30 +22,28 @@
         1. Должен быть метод public static Map<String, Long> getSalesMap(Reader reader)
         2. Работа метода getSalesMap должна удовлетворять условию*/
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
-import java.io.BufferedReader;
-import java.io.Reader;
-import java.io.StringReader;
-import java.util.Map;
+//Что произойдет? Почему отработает 2 метод? Как это исправить?
 
 public class Pair {
-
     public static void main(String[] args) {
-    String source = "Алексей 3000\n" +
-            "        Дмитрий 9000\n" +
-            "        Антон 3000\n" +
-            "        Алексей 7000\n" +
-            "        Антон 8000";
-        StringReader s = new StringReader(source);
-        BufferedReader reader = new BufferedReader(s);
-        System.out.println(getSalesMap(reader));
+        List<Integer> integerList = Arrays.asList(1, 2, 3);
+        Gen gen = new Gen();
+        gen.m(integerList);
     }
-
-
-    public static Map<String, Long> getSalesMap(Reader reader) {
-        //Твой код здесь
+    static class Gen<T> {
+        <T> void m(Collection<T> collection) {
+            for (T s : collection) {
+                System.out.println(s+ " 1й метод");
+            }
+        }
+        <T> void m(List<String> list) {
+            for (String s : list) {
+                System.out.println(s+ " 2й метод");
+            }
+        }
     }
-
 }
-
-
