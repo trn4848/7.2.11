@@ -1,47 +1,34 @@
-import java.util.ArrayList;
-import java.util.function.Predicate;
+/*Напишите метод, возвращающий стрим псевдослучайных целых чисел. Алгоритм генерации чисел следующий:
+
+        Берется какое-то начальное неотрицательное число (оно будет передаваться в ваш метод проверяющей системой).
+        Первый элемент последовательности устанавливается равным этому числу.
+        Следующие элементы вычисляются по рекуррентной формуле Rn+1=mid(Rn2), где mid — это функция,
+        выделяющая второй, третий и четвертый разряд переданного числа. Например, mid(123456)=345.
+        Алгоритм, конечно, дурацкий и не выдерживающий никакой критики, но для практики работы со стримами сойдет :)
+
+        Пример ввода: 13
+        Пример вывода: 13, 16, 25, 62, 384, 745, 502, 200, 0, ... (дальше бесконечное количество нулей)
+
+        Требования:
+        1. Должен быть метод public static IntStream pseudoRandomStream(int seed)
+        2. Метод должен возвращать поток, удовлетворяющий условию*/
+
+
+import java.util.stream.IntStream;
+
 
 public class Employee {
-    String name;
-    String department;
-    int salary;
-
-    public Employee(String name, String department, int salary) {
-        this.name = name;
-        this.department = department;
-        this.salary = salary;
-    }
-}
-
-class TestEmployee {
-    void printEmployee(Employee e) {
-        System.out.println("Имя: " + e.name + "," + "департамент: " + e.department + "," + "зарплата: " + e.salary);
-    }
-
-    void filtraciyaRabonikov(ArrayList<Employee> al, Predicate<Employee> p) {
-        for (Employee e : al) {
-            if (p.test(e)) {
-                printEmployee(e);
-            }
-        }
-    }
 
     public static void main(String[] args) {
-        ArrayList<Employee> al = new ArrayList<>();
-        Employee emp1 = new Employee("Masha", "Buh", 1000);
-        Employee emp2 = new Employee("Kolya", "IT", 2000);
-        Employee emp3 = new Employee("Sveta", "Oper", 3000);
-        Employee emp4 = new Employee("Maxim", "Hoz", 4000);
-        Employee emp5 = new Employee("Sergey", "IT", 150);
-        al.add(emp1);
-        al.add(emp2);
-        al.add(emp3);
-        al.add(emp4);
-        al.add(emp5);
+        pseudoRandomStream(13);
 
-        TestEmployee te = new TestEmployee();
+    }
 
-        te.filtraciyaRabonikov(al,(Employee al1) -> al1.department == "IT" && al1.salary >= 200);
+    public static void pseudoRandomStream(int seed) {
+        IntStream.iterate(seed, n -> n * n).map(n -> (n % 10000) / 10).limit(10).forEach(System.out::println);
 
     }
 }
+
+
+
