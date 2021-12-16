@@ -25,8 +25,7 @@ public class Employee {
     }
 
     public static void pseudoRandomStream(int seed) {
-        IntStream.iterate(seed, n -> n * n).map(n -> (n % 10000) / 10).limit(10).forEach(System.out::println);
-
+        IntStream.iterate(seed, n -> n*n%10000/10).limit(10).forEach(System.out::println);
     }
 }
 
