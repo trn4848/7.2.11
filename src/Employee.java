@@ -1,31 +1,34 @@
-/*Напишите метод, возвращающий стрим псевдослучайных целых чисел. Алгоритм генерации чисел следующий:
+/*Напишите метод, находящий в стриме минимальный и максимальный элементы в соответствии порядком, заданным Comparator'ом.
 
-        Берется какое-то начальное неотрицательное число (оно будет передаваться в ваш метод проверяющей системой).
-        Первый элемент последовательности устанавливается равным этому числу.
-        Следующие элементы вычисляются по рекуррентной формуле Rn+1=mid(Rn2), где mid — это функция,
-        выделяющая второй, третий и четвертый разряд переданного числа. Например, mid(123456)=345.
-        Алгоритм, конечно, дурацкий и не выдерживающий никакой критики, но для практики работы со стримами сойдет :)
+Найденные минимальный и максимальный элементы передайте в minMaxConsumer следующим образом:
 
-        Пример ввода: 13
-        Пример вывода: 13, 16, 25, 62, 384, 745, 502, 200, 0, ... (дальше бесконечное количество нулей)
+minMaxConsumer.accept(min, max);
+Если стрим не содержит элементов, то вызовите:
 
-        Требования:
-        1. Должен быть метод public static IntStream pseudoRandomStream(int seed)
-        2. Метод должен возвращать поток, удовлетворяющий условию*/
+minMaxConsumer.accept(null, null);
+Требования:
+1. Должен быть метод public <T> void findMinMax(Stream<? extends T> stream, Comparator<? super T> order, BiConsumer<? super T, ? super T> minMaxConsumer)
+2. Метод должен находить минимум и максимум в потоке, с помощью order.
+3. Полученные данные должны быть записаны minMaxConsumer, согласно условию*/
 
 
-import java.util.stream.IntStream;
+import java.util.Comparator;
+import java.util.function.BiConsumer;
+import java.util.stream.Stream;
 
 
 public class Employee {
 
     public static void main(String[] args) {
-        pseudoRandomStream(13);
+
 
     }
 
-    public static IntStream pseudoRandomStream(int seed) {
-        return IntStream.iterate(seed, n -> n*n%10000/10);
+    public <T> void findMinMax(
+            Stream<? extends T> stream,
+            Comparator<? super T> order,
+            BiConsumer<? super T, ? super T> minMaxConsumer) {
+        //Твой код здесь
     }
 }
 
